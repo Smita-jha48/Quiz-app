@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Quiz</title>
-        <link rel="stylesheet" href="./static/css/quiz.css">
+        <title>Quiz App</title>
+        <link rel="stylesheet" href="./static/css/styles.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="https://softwarevital.com/wp-content/uploads/2020/07/testbook-logo-1024x1024.jpg">
     </head>
     <body>
+        <!-- 
+
+         -->
        <div class="quiz-home-box custom-box show">
+           <img src="https://softwarevital.com/wp-content/uploads/2020/07/testbook-logo-1024x1024.jpg" alt="logo-img"/ >
+           <h1>Hello user! </h1> 
+            <h3>Enter your name to continue the Quiz.</h3>
+           <input placeholder="Enter Your Name..." autocomplete="off" type="text"  class="username-control-input" value="" name="" id="username">
+            <button class="user-btn">Enter</button>
            <h4>You'll have 10 seconds to answer each questions</h4>
-          <!-- <button type="button" class="start-quiz-btn btn">Start the quiz</button>-->
-          <h1>Select Category</h1>
-          <div class="category-box">
+           <h1>Select Category</h1>
+           <div class="category-box">
           </div>
        </div>
 
        <div class="quiz-box custom-box">
-           <h1 class="category-text"></h1>
+           <h1 class="category-text" style="color:#000;"></h1>
             <div class="stats">
                 <div class="quiz-time">
                     <div class="remaining-time"></div>
@@ -42,18 +50,26 @@
             </div>
        </div>
        <div class="quiz-over-box custom-box">
-        <h1>Quiz Result</h1>
-        <h4>Total Question : <span class="total-questions"></span></h4>
-        <h4>Attempt : <span class="total-attempt"></span></h4>
-        <h4>Correct : <span class="total-correct"></span></h4>
-        <h4>Wrong : <span class="total-wrong"></span></h4>
-        <h4>Percentage : <span class="percentage"></span></h4>
+        <h1 class="quiz-result-heading" style="  font-size: 2.4rem;
+        font-family: sans-serif;
+        color: #43b6f8;">Quiz Result</h1>
+        <h4 style="font-size: 1.2rem;"><span class="username-value" style="text-transform:uppercase;"></span> your result is :</h4>
+        <h4 style="font-size: 1.2rem;">Total Time Taken : <span class="taken-time"></span> seconds</h4>
+        <h4 style="font-size: 1.2rem;">Total Question : <span class="total-questions"></span></h4>
+        <h4 style="font-size: 1.2rem;">Attempt : <span class="total-attempt"></span></h4>
+        <h4 style="font-size: 1.2rem;">Correct : <span class="total-correct"></span></h4>
+        <h4 style="font-size: 1.2rem;">Wrong : <span class="total-wrong"></span></h4>
+        <h4 style="font-size: 1.2rem;">Percentage : <span class="percentage"></span></h4>
         <button type="button" class="start-again-quiz-btn btn">Start Again</button>
         <button type="button" class="go-home-btn btn">Go To Home</button>
        </div>
-       <script src="./static/js/quizNa.js"></script>
+       <script src="./static/js/index.js"></script>
         
         </div>
 
     </body>
+    <script>
+        const username = document.getElementById('username');
+        console.log(username.value);
+    </script>
 </html>
