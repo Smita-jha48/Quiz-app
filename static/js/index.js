@@ -21,7 +21,11 @@ const goHomeBtn = document.querySelector(".go-home-btn");
 const categoryBox = document.querySelector(".category-box");
 const categoryText = document.querySelector(".category-text");
 const sessionUser = document.querySelector("#username");
+const perQuestionTimer = document.querySelector('.per-question-timer')
 const username = "";
+var everyQuestionInterval;
+const perQuestionResult = document.querySelector('.per-question-result');
+var dynamicName = document.getElementById('name');   
 sessionUser.addEventListener("change", function (e) {
   username = e.target.value;
 });
@@ -34,7 +38,9 @@ let interval;
 let categoryIndex;
 var timeLimitGlobal;
 globalThis.timeLimitGlobal = 300;
-
+var perQuestionTimeStamps = [];
+var count;
+var flag = false;
 // myApp - Array of objects that contains the four different objects each containing the respected category  Questions, Options to the
 // answer and the Answer
 myApp = [
@@ -331,6 +337,24 @@ function createCategory() {
   }
 }
 
+// per-question timer   
+function startEveryQuestionTimer(){
+  var tens = 0;
+  everyQuestionInterval = setInterval(function(){
+    flag = true;
+    count = ++tens; 
+    perQuestionTimer.innerHTML = tens;
+  },1000)
+  if(flag){
+
+    perQuestionTimeStamps.push(count);
+  }
+
+  console.log(perQuestionTimeStamps)
+  tens = 0;
+}
+
+
 // Function to select the clicked category to continue the quiz with the same category.
 function selectedCategory(ele) {
   categoryIndex = ele.getAttribute("data-id");
@@ -338,6 +362,7 @@ function selectedCategory(ele) {
   quizHomeBox.classList.remove("show");
   quizBox.classList.add("show");
   startTimer();
+  startEveryQuestionTimer()
   nextQuestion();
 }
 
@@ -435,18 +460,25 @@ function timeIsUp() {
     }
   }
   seeResultBtn.classList.add("show");
+  startEveryQuestionTimer();
+  clearInterval(interval);
+  console.log("countttt");
+  
+  clearInterval(everyQuestionInterval);
   quizResult();
   disableOptions();
-  showAnswerDescription();
+  // showAnswerDescription();
 }
 
 // Function to control the timer part
 var value;
 function startTimer() {
+  const startingMinutes = 5;
+let time = startingMinutes * 60;
   let timeLimit = timeLimitGlobal;
-  remainingTime.innerHTML = timeLimit;
-  remainingTime.classList.remove("less-time");
-  interval = setInterval(() => {
+  // remainingTime.innerHTML = timeLimit;
+  // remainingTime.classList.remove("less-time");
+   interval = setInterval(() => {
     timeLimit = timeLimit - 1;
     if (timeLimit < 100) {
       timeLimit = "0" + timeLimit;
@@ -464,8 +496,15 @@ function startTimer() {
       timeLimit = 0;
     }
     value = timeLimit;
+  const minutes = Math.floor(time / 60);      
+  let seconds = time % 60; 
+  seconds = seconds < 10 ? '0' + seconds : seconds;
+  remainingTime.innerHTML = `${minutes} : ${seconds}`;
+  remainingTime.classList.remove('less-time');
+  time--;
+    
   }, 1000);
-  // timeLimitGlobal = timeLimit;
+  timeLimitGlobal = timeLimit;
   // value = timeLimit;
   // console.log(timeLimit);
   // console.log(timeLimitGlobal);
@@ -502,6 +541,8 @@ document.querySelector(".user-btn").addEventListener("click", function () {
     return;
   }
   window.sessionStorage.setItem("username", sessionUser.value);
+  dynamicName.innerHTML = `Hey! ${sessionUser.value.toUpperCase()}`;
+  document.querySelector('.quiz-box-name').innerHTML = `${sessionUser.value.toUpperCase()}! `;
   sessionUser.value = "";
 });
 
@@ -539,6 +580,8 @@ function nextQuestion() {
   generateRandomQuestion();
   hideNextQuestionBtn();
   hideAnswerDescription();
+  clearInterval(everyQuestionInterval);
+  startEveryQuestionTimer();
   hideTimeUpText();
 }
 
@@ -565,7 +608,7 @@ function quizResult() {
   let calcTime = timeLimitGlobal - value;
   document.querySelector(".username-value").innerHTML =
     sessionStorage.getItem("username");
-    takenTime.innerHTML = calcTime;
+  takenTime.innerHTML = calcTime;
   document.querySelector(".total-questions").innerHTML =
     myApp[categoryIndex].quizWrap.length;
   document.querySelector(".total-attempt").innerHTML = attempt;
@@ -573,6 +616,10 @@ function quizResult() {
   document.querySelector(".total-wrong").innerHTML = attempt - score;
   const percentage = (score / myApp[categoryIndex].quizWrap.length) * 100;
   document.querySelector(".percentage").innerHTML = percentage.toFixed(2) + "%";
+  console.log("ans",perQuestionTimeStamps)
+    let count = 1
+    perQuestionResult.innerHTML = perQuestionTimeStamps.map((data)=>(
+      `<div class = "res-data">Q${count++} - ${data} secs</div>` ))
 }
 
 // Event listener to see the result on the single click.
@@ -589,14 +636,25 @@ startAgainQuizBtn.addEventListener("click", () => {
   quizOverBox.classList.remove("show");
   resetQuiz();
   nextQuestion();
+  resetTimer(timeLimitGlobal);
+  clearInterval(interval);
+  perQuestionTimeStamps = [];
   startTimer();
 });
+
+function resetTimer(val) {
+  val = 300;
+}
 
 // Event listener for returning to the home page.
 goHomeBtn.addEventListener("click", () => {
   quizOverBox.classList.remove("show");
   quizHomeBox.classList.add("show");
   resetQuiz();
+  clearInterval(interval);
+  clearInterval(everyQuestionInterval);
+  perQuestionTimeStamps = []
+
 });
 
 // Event listener of for loading the category on the document load.
