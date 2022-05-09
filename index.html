@@ -12,20 +12,26 @@
          -->
        <div class="quiz-home-box custom-box show">
            <img src="https://softwarevital.com/wp-content/uploads/2020/07/testbook-logo-1024x1024.jpg" alt="logo-img"/ >
-           <h1>Hello user! </h1> 
+           <h1>Welcome to the Test Book Quiz App</h1> 
             <h3>Enter your name to continue the Quiz.</h3>
+            <h3 id="name" class = "name"></h3>
            <input placeholder="Enter Your Name..." autocomplete="off" type="text"  class="username-control-input" value="" name="" id="username">
             <button class="user-btn">Enter</button>
-           <h4>You'll have 10 seconds to answer each questions</h4>
-           <h1>Select Category</h1>
+           <!-- <h4>You'll have 10 seconds to answer each questions</h4> --> 
+          <hr >
+           <h1>Select Category</h1> 
            <div class="category-box">
           </div>
        </div>
 
        <div class="quiz-box custom-box">
+           <h2>Give Your Best <span class = "quiz-box-name">Name!</span></h2>
+           
+           <img src="https://softwarevital.com/wp-content/uploads/2020/07/testbook-logo-1024x1024.jpg" alt="logo-img"/ >
            <h1 class="category-text" style="color:#000;"></h1>
             <div class="stats">
                 <div class="quiz-time">
+                    <h2 class="per-question-timer"></h2>
                     <div class="remaining-time"></div>
                     <span class="time-up-text">Time's Up</span>
                 </div>
@@ -48,7 +54,7 @@
                 <button type="button" class="next-question-btn btn">Next Question</button>
                 <button type="button" class="see-result-btn btn">See Your Result</button>
             </div>
-       </div>
+       </div>                                                                                    
        <div class="quiz-over-box custom-box">
         <h1 class="quiz-result-heading" style="  font-size: 2.4rem;
         font-family: sans-serif;
@@ -60,6 +66,7 @@
         <h4 style="font-size: 1.2rem;">Correct : <span class="total-correct"></span></h4>
         <h4 style="font-size: 1.2rem;">Wrong : <span class="total-wrong"></span></h4>
         <h4 style="font-size: 1.2rem;">Percentage : <span class="percentage"></span></h4>
+        <div class = "per-question-result"></div>
         <button type="button" class="start-again-quiz-btn btn">Start Again</button>
         <button type="button" class="go-home-btn btn">Go To Home</button>
        </div>
